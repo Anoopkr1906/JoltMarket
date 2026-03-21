@@ -6,15 +6,15 @@ function Home() {
   const navigate = useNavigate();
 
   return (
-    <div style={{ fontFamily: 'Arial, sans-serif', textAlign: 'center'}} className='flex flex-col items-center justify-center h-screen gap-4'>
+    <div style={{ fontFamily: 'Arial, sans-serif', textAlign: 'center' }} className='flex flex-col items-center justify-center h-screen gap-4'>
       <div className='w-72'>
-      <img src="jolt_logo.png" alt="logo"  className='w-full object-contain object-center'/>
+        <img src="jolt_logo.png" alt="logo" className='w-full object-contain object-center' />
       </div>
       <p className='text-slate-700 font-medium text-lg'>Select an option to get started:</p>
-      
+
       <div className='flex gap-16 mt-5'>
         {/* Buy Button */}
-        <button 
+        <button
           style={{
             padding: '20px 50px',
             fontSize: '20px',
@@ -26,7 +26,7 @@ function Home() {
             animation: 'bounce 2s infinite',
             transition: 'transform 0.3s'
           }}
-          onClick={() => navigate('/Byer')}
+          onClick={() => navigate('/Buyer')}
           onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
           onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}
         >
@@ -34,7 +34,7 @@ function Home() {
         </button>
 
         {/* Sell Button */}
-        <button 
+        <button
           style={{
             padding: '20px 50px',
             fontSize: '20px',
