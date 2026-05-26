@@ -27,8 +27,7 @@ const Navbar = ({ onLogout }) => {
   };
 
   const getNavLinkClass = ({ isActive }) =>
-    `text-lg text-white inline-block w-max hover:text-gray-300 ${
-      isActive ? "border-b-2 border-white" : ""
+    `text-lg text-white inline-block w-max hover:text-gray-300 ${isActive ? "border-b-2 border-white" : ""
     }`;
 
   return (
@@ -45,7 +44,7 @@ const Navbar = ({ onLogout }) => {
 
         {/* Menu for Large Screens */}
         <div className="hidden md:flex space-x-10">
-          <NavLink to="/Byer" className={getNavLinkClass}>
+          <NavLink to="/Buyer" className={getNavLinkClass}>
             Buy
           </NavLink>
           <NavLink to="/Seller" className={getNavLinkClass}>
@@ -85,14 +84,14 @@ const Navbar = ({ onLogout }) => {
             {darkMode ? (
               <SunIcon className="w-6 h-6" />
             ) : (
-              <MoonIcon className="w-6 h-6" /> 
+              <MoonIcon className="w-6 h-6" />
             )}
           </button>
         </div>
 
         {/* Hamburger Menu Icon */}
         <div className="md:hidden items-center space-x-4">
-        <button
+          <button
             onClick={toggleDarkMode}
             className="text-lg text-white hover:text-gray-300"
           >
@@ -100,7 +99,7 @@ const Navbar = ({ onLogout }) => {
             {darkMode ? (
               <SunIcon className="w-6 h-6" />
             ) : (
-              <MoonIcon className="w-6 h-6" /> 
+              <MoonIcon className="w-6 h-6" />
             )}
           </button>
           <button
@@ -122,35 +121,35 @@ const Navbar = ({ onLogout }) => {
               ></path>
             </svg>
           </button>
-        </div> 
+        </div>
       </div>
-      
 
-      
+
+
 
       {/* Mobile Menu */}
       {isOpen && (
         <div className="md:hidden flex flex-col px-6 py-4 space-y-2">
-          <NavLink to="/Byer" className={getNavLinkClass}>
+          <NavLink to="/Buyer" className={getNavLinkClass}>
             Buy
           </NavLink>
           <NavLink to="/Seller" className={getNavLinkClass}>
             Sell
           </NavLink>
           <NavLink to="/Cart" className={getNavLinkClass}>
-            Cart 
+            Cart
           </NavLink>
           <button
-    onClick={() => {
-      onLogout();
-    }}
-    className="flex items-center justify-center text-lg text-white py-2 px-4 border border-white rounded-lg flex items-center hover:bg-gray-800 transition duration-300 "
-  >
-    <span className="mr-2 ">Logout</span>
-    <FiLogOut className="text-white text-xl" />
-  </button>
-          
-          
+            onClick={() => {
+              onLogout();
+            }}
+            className="flex items-center justify-center text-lg text-white py-2 px-4 border border-white rounded-lg flex items-center hover:bg-gray-800 transition duration-300 "
+          >
+            <span className="mr-2 ">Logout</span>
+            <FiLogOut className="text-white text-xl" />
+          </button>
+
+
         </div>
       )}
     </nav>

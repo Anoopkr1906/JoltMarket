@@ -12,7 +12,7 @@ import Home from "./Pages/Home/Home";
 import Login from "./Pages/Login/Login";
 import Update from "./Pages/Update/Update";
 import { CartProvider } from "./Context/CartManager/CartManager";
-import Byer from "./Pages/Byer/Byer";
+import Buyer from "./Pages/Buyer/Buyer";
 import Seller from "./Pages/Seller/Seller";
 import { auth } from "./firebase/firebase";
 import "./App.css";
@@ -85,7 +85,7 @@ function App() {
           {user ? (
             <>
               <Route path="/" element={<Home onLogout={handleLogout} />} />
-              <Route path="/Byer" element={<Byer onLogout={handleLogout} />} />
+              <Route path="/Buyer" element={<Buyer onLogout={handleLogout} />} />
               <Route
                 path="/Seller"
                 element={<Seller onLogout={handleLogout} />}

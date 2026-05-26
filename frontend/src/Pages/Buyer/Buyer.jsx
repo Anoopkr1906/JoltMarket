@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useCart } from "../../Context/CartManager/CartManager";
 import { toast } from "react-toastify";
 
-function Byer() {
+function Buyer() {
   const { addToCart } = useCart();
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -33,7 +33,8 @@ function Byer() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch("https://backjolt-1.onrender.com/product/entries");
+        // Render URL: https://backjolt-1.onrender.com/product/entries
+        const response = await fetch("http://localhost:5000/product/entries");
         if (!response.ok) throw new Error("Failed to fetch products");
         const data = await response.json();
         setProducts(data);
@@ -168,4 +169,4 @@ function Byer() {
   );
 }
 
-export default Byer;
+export default Buyer;

@@ -15,11 +15,17 @@ function Cart() {
 
   // Function to remove item from the cart
   const delCart = (ind) => {
-    removeFromCart(ind);
+    const updatedCart = myCart.filter((_, i) => i !== ind);
+    setMyCart(updatedCart); // Update local state immediately
+    removeFromCart(ind); // Update context state
     toast.success("Item removed from cart");
 
-    // Update localStorage with updated cart
-    localStorage.setItem("carts", JSON.stringify(myCart)); // Save updated cart to localStorage
+    // Update localStorage with the updated cart
+    if (updatedCart.length > 0) {
+      localStorage.setItem("carts", JSON.stringify(updatedCart));
+    } else {
+      localStorage.removeItem("carts");
+    }
   };
 
   // Clear the cart
@@ -120,10 +126,9 @@ function Cart() {
                 <button
                   onClick={() =>
                     window.open(
-                      `https://wa.me/${
-                        product.phoneNumber.startsWith("+")
-                          ? product.phoneNumber.substring(1)
-                          : product.phoneNumber
+                      `https://wa.me/${product.phoneNumber.startsWith("+")
+                        ? product.phoneNumber.substring(1)
+                        : product.phoneNumber
                       }?text=${encodeURIComponent(
                         `Hi, I'm interested in ${product.productName}.`
                       )}`,

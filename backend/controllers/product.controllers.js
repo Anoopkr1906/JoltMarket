@@ -24,9 +24,9 @@ exports.getEntriesByEmail = async (req, res) => {
         // Find products with matching userEmail
         const products = await Product.find({ userEmail: userEmail });
         
-        // If no products are found for the userEmail, return a 404 status
+        // No products for this email is a valid empty-state, not an API error.
         if (!products.length) {
-            return res.status(404).json({ message: "No products found for this user" });
+            return res.status(200).json([]);
         }
 
         // Return the filtered products

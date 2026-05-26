@@ -23,8 +23,9 @@ function Seller() {
 
       if (userEmail) {
         try {
+          // Render URL: https://backjolt-1.onrender.com/product/getEmail
           const response = await fetch(
-            "https://backjolt-1.onrender.com/product/getEmail",
+            "http://localhost:5000/product/getEmail",
             {
               method: "POST",
               headers: {
@@ -75,16 +76,20 @@ function Seller() {
       !phoneNumber ||
       !productImage
     ) {
-      setErrorMessage("Please fill in all fields and upload an image.");
-      toast.error("Please fill in all required fields");
+      setErrorMessage("Please fill in all fields.");
       return;
     }
 
     if (!isIndianPhoneNumber(phoneNumber)) {
-      setErrorMessage(
-        "Please enter a valid Indian phone number (with country code 91 or 10 digits starting with 6-9)"
-      );
-      toast.error("Please enter a valid Indian phone number");
+      setErrorMessage("Please enter a valid Indian phone number.");
+      return;
+    }
+
+    const user = JSON.parse(localStorage.getItem("user"));
+    const userEmail = user ? user.email : null;
+
+    if (!userEmail) {
+      setErrorMessage("User email not found. Please log in again.");
       return;
     }
 
@@ -94,14 +99,12 @@ function Seller() {
     formData.append("productCategory", productCategory);
     formData.append("productDetails", productDetails);
     formData.append("phoneNumber", phoneNumber);
-
-    const user = JSON.parse(localStorage.getItem("user"));
-    const userEmail = user ? user.email : null;
     formData.append("userEmail", userEmail);
     formData.append("image", productImage);
 
     try {
-      const response = await fetch("https://backjolt-1.onrender.com/product/create", {
+      // Render URL: https://backjolt-1.onrender.com/product/create
+      const response = await fetch("http://localhost:5000/product/create", {
         method: "POST",
         body: formData,
       });
@@ -124,8 +127,9 @@ function Seller() {
 
   const handleDelete = async (id) => {
     try {
+      // Render URL: https://backjolt-1.onrender.com/product/delete/${id}
       const response = await fetch(
-        `https://backjolt-1.onrender.com/product/delete/${id}`,
+        `http://localhost:5000/product/delete/${id}`,
         {
           method: "DELETE",
         }
@@ -154,7 +158,7 @@ function Seller() {
 
   return (
     <div className="dark:bg-black">
-      <div class="p-5 font-sans text-center text-black max-w-lg mx-auto dark:bg-black">
+      <div className="p-5 font-sans text-center text-black max-w-lg mx-auto dark:bg-black">
         <h1 className="font-medium text-3xl mb-5 text-slate-700 dark:text-white">
           List Your Product for Sale
         </h1>
@@ -175,7 +179,7 @@ function Seller() {
             placeholder="Product Name"
             value={productName}
             onChange={(e) => setProductName(e.target.value)}
-            class="p-3 text-base rounded-lg border border-gray-300 transition-transform duration-200 bg-gray-200 dark:bg-gray-700 dark:text-white"
+            className="p-3 text-base rounded-lg border border-gray-300 transition-transform duration-200 bg-gray-200 dark:bg-gray-700 dark:text-white"
           />
 
           <input
@@ -183,7 +187,7 @@ function Seller() {
             placeholder="Price"
             value={price}
             onChange={(e) => setProductPrice(e.target.value)}
-            class="p-3 text-base rounded-lg border border-gray-300 transition-transform duration-200 bg-gray-200 dark:bg-gray-700 dark:text-white"
+            className="p-3 text-base rounded-lg border border-gray-300 transition-transform duration-200 bg-gray-200 dark:bg-gray-700 dark:text-white"
           />
 
           <input
@@ -191,13 +195,13 @@ function Seller() {
             placeholder="Product Category"
             value={productCategory}
             onChange={(e) => setProductCategory(e.target.value)}
-            class="p-3 text-base rounded-lg border border-gray-300 transition-transform duration-200 bg-gray-200 dark:bg-gray-700 dark:text-white"
+            className="p-3 text-base rounded-lg border border-gray-300 transition-transform duration-200 bg-gray-200 dark:bg-gray-700 dark:text-white"
           />
 
           <input
             type="file"
             onChange={(e) => setProductImage(e.target.files[0])}
-            class="p-3 text-base rounded-lg border file:bg-gray-200 file:border-2 file:text-gray-400 file:rounded-md file:border-gray-300 border-gray-300 transition-transform duration-200 bg-gray-200 dark:bg-gray-700 dark:text-white"
+            className="p-3 text-base rounded-lg border file:bg-gray-200 file:border-2 file:text-gray-400 file:rounded-md file:border-gray-300 border-gray-300 transition-transform duration-200 bg-gray-200 dark:bg-gray-700 dark:text-white"
           />
 
           <textarea
@@ -205,7 +209,7 @@ function Seller() {
             rows="4"
             value={productDetails}
             onChange={(e) => setProductDetails(e.target.value)}
-            class="p-3 text-base rounded-lg border border-gray-300 transition-transform duration-200 bg-gray-200 dark:bg-gray-700 dark:text-white"
+            className="p-3 text-base rounded-lg border border-gray-300 transition-transform duration-200 bg-gray-200 dark:bg-gray-700 dark:text-white"
           />
 
           <input
@@ -213,7 +217,7 @@ function Seller() {
             placeholder="Phone Number"
             value={phoneNumber}
             onChange={(e) => setPhoneNumber(e.target.value)}
-            class="p-3 text-base rounded-lg border border-gray-300 transition-transform duration-200 bg-gray-200 dark:bg-gray-700 dark:text-white"
+            className="p-3 text-base rounded-lg border border-gray-300 transition-transform duration-200 bg-gray-200 dark:bg-gray-700 dark:text-white"
           />
 
           <button
@@ -290,40 +294,40 @@ function Seller() {
             //   </button>
             // </div>
             <div
-              class="w-full md:w-3/4 lg:w-4/5 xl:w-[900px] p-4 border border-gray-300 rounded shadow-sm bg-white flex flex-col items-center text-center dark:bg-gray-800"
+              className="w-full md:w-3/4 lg:w-4/5 xl:w-[900px] p-4 border border-gray-300 rounded shadow-sm bg-white flex flex-col items-center text-center dark:bg-gray-800"
               key={product._id}
             >
               <img
                 src={product.image}
-                class="w-40 h-40 object-cover"
+                className="w-40 h-40 object-cover"
                 alt="Product Image"
               />
-              <p class="text-lg font-semibold text-gray-800 text-left dark:text-white">
+              <p className="text-lg font-semibold text-gray-800 text-left dark:text-white">
                 {product.productName}
               </p>
-              <p class="text-sm text-gray-800 text-left dark:text-white">
-                Price: <span class="font-medium">Rs. {product.price}</span>
+              <p className="text-sm text-gray-800 text-left dark:text-white">
+                Price: <span className="font-medium">Rs. {product.price}</span>
               </p>
-              <p class="text-sm text-gray-800 text-left dark:text-white">
+              <p className="text-sm text-gray-800 text-left dark:text-white">
                 Category:{" "}
-                <span class="font-medium">{product.productCategory}</span>
+                <span className="font-medium">{product.productCategory}</span>
               </p>
-              <p class="text-sm text-gray-800 text-left dark:text-white">
+              <p className="text-sm text-gray-800 text-left dark:text-white">
                 {product.productDetails}
               </p>
-              <p class="text-sm text-gray-800 text-left dark:text-white">
-                Contact: <span class="font-medium">{product.phoneNumber}</span>
+              <p className="text-sm text-gray-800 text-left dark:text-white">
+                Contact: <span className="font-medium">{product.phoneNumber}</span>
               </p>
 
-              <div class="flex space-x-2 mt-4">
+              <div className="flex space-x-2 mt-4">
                 <button
-                  class="px-4 py-2 bg-purple-700 text-white rounded hover:bg-purple-800"
+                  className="px-4 py-2 bg-purple-700 text-white rounded hover:bg-purple-800"
                   onClick={() => handleUpdate(product._id)}
                 >
                   Update
                 </button>
                 <button
-                  class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+                  className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
                   onClick={() => handleDelete(product._id)}
                 >
                   Delete
