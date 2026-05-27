@@ -1,20 +1,29 @@
 require("dotenv").config()
 require("./config/database").connect()
-const User=require('./model/user')
-const Product=require('./model/product')
 const cors = require('cors'); // Import cors
 
 const express = require('express')
-const jwt=require('jsonwebtoken')
-const bcrypt = require('bcryptjs')
 const cookieParser=require('cookie-parser')
-// custom middleware
-const auth = require("./middleware/auth")
 const app = express()
+
+const allowedOrigins = (process.env.CORS_ORIGINS || process.env.FRONTEND_URL || "")
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean)
+
+const corsOptions = {
+  origin: (origin, callback) => {
+    // Allow non-browser requests and local development when no origin is set.
+    if (!origin || allowedOrigins.length === 0 || allowedOrigins.includes(origin)) {
+      return callback(null, true)
+    }
+    return callback(new Error("Not allowed by CORS"))
+  },
+  credentials: true,
+}
 // to allow json format data
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
-app.use(express.json())
 // to get data from forms
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
@@ -22,6 +31,10 @@ app.use(cookieParser())
 
 app.get("/", (req, res) => {
   res.send("<h1>Welcome to Jolt Market</h1> ")
+})
+
+app.get("/health", (req, res) => {
+  res.status(200).json({ status: "ok" })
 })
 
 app.use("/user", require("./Routes/user.routes"))

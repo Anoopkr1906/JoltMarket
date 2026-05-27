@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { auth } from "../../firebase/firebase"; // Adjust the path as necessary
 import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
 import { toast } from "react-toastify";
+import { apiUrl } from "../../utils/api";
 
 function Seller() {
   const [productName, setProductName] = useState("");
@@ -23,17 +24,13 @@ function Seller() {
 
       if (userEmail) {
         try {
-          // Render URL: https://backjolt-1.onrender.com/product/getEmail
-          const response = await fetch(
-            "http://localhost:5000/product/getEmail",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({ userEmail }),
-            }
-          );
+          const response = await fetch(apiUrl("/product/getEmail"), {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ userEmail }),
+          });
 
           if (response.ok) {
             const data = await response.json();
@@ -103,8 +100,7 @@ function Seller() {
     formData.append("image", productImage);
 
     try {
-      // Render URL: https://backjolt-1.onrender.com/product/create
-      const response = await fetch("http://localhost:5000/product/create", {
+      const response = await fetch(apiUrl("/product/create"), {
         method: "POST",
         body: formData,
       });
@@ -127,13 +123,9 @@ function Seller() {
 
   const handleDelete = async (id) => {
     try {
-      // Render URL: https://backjolt-1.onrender.com/product/delete/${id}
-      const response = await fetch(
-        `http://localhost:5000/product/delete/${id}`,
-        {
-          method: "DELETE",
-        }
-      );
+      const response = await fetch(apiUrl(`/product/delete/${id}`), {
+        method: "DELETE",
+      });
 
       if (response.ok) {
         setProducts(products.filter((product) => product._id !== id));

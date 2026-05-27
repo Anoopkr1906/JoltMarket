@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { auth } from '../../firebase/firebase'; // Adjust the path as necessary
+import { apiUrl } from '../../utils/api';
 
 function Update() {
   const { id } = useParams();
@@ -18,8 +19,7 @@ function Update() {
   useEffect(() => {
     const fetchProductById = async () => {
       try {
-        // Render URL: https://backjolt-1.onrender.com/product/getId
-        const response = await fetch(`http://localhost:5000/product/getId`, {
+        const response = await fetch(apiUrl('/product/getId'), {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -87,8 +87,7 @@ function Update() {
     formData.append('id', id);
 
     try {
-      // Render URL: https://backjolt-1.onrender.com/product/Update
-      const response = await fetch(`http://localhost:5000/product/Update`, {
+      const response = await fetch(apiUrl('/product/Update'), {
         method: 'POST',
         body: formData,
       });
