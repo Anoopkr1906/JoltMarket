@@ -1,18 +1,27 @@
 const mongoose=require('mongoose')
 // creating schema for user
 const userSchema=new mongoose.Schema({
-    firstName:String,
-    lastName:String,
+    firstName:{
+        type:String,
+        required:true,
+        trim:true
+    },
+    lastName:{
+        type:String,
+        required:true,
+        trim:true
+    },
     email:{
         type:String,
         required:true,
-        unique:true
+        unique:true,
+        trim:true,
+        lowercase:true
     },
     password:{
         type:String,
         required:true,
-        unique:true,
-        minlengh:8
+        minlength:8
     }
    
 

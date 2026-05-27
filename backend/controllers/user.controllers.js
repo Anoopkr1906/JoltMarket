@@ -2,17 +2,28 @@ const User = require('../model/user');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
+const allowedEmailDomain = '@nitjsr.ac.in';
+
 // Signup logic
 exports.signup = async (req, res) => {
     try {
         const { firstName, lastName, email, password } = req.body;
+        const normalizedEmail = String(email || '').trim().toLowerCase();
 
-        if (!(firstName && lastName && email && password)) {
+        if (!(firstName && lastName && normalizedEmail && password)) {
             return res.status(401).send("Please fill all the required fields");
         }
 
+        if (!normalizedEmail.endsWith(allowedEmailDomain)) {
+            return res.status(400).send(`Only ${allowedEmailDomain} email addresses are allowed`);
+        }
+
+        if (String(password).length < 8) {
+            return res.status(400).send("Password must be at least 8 characters long");
+        }
+
         // Checking if the email is unique
-        const existUser = await User.findOne({ email });
+        const existUser = await User.findOne({ email: normalizedEmail });
         if (existUser) {
             return res.status(400).send("User already registered with this email");
         }
@@ -22,9 +33,9 @@ exports.signup = async (req, res) => {
 
         // Save the user to the database
         const user = await User.create({
-            firstName,
-            lastName,
-            email,
+            firstName: String(firstName).trim(),
+            lastName: String(lastName).trim(),
+            email: normalizedEmail,
             password: encryptPassword
         });
 
@@ -44,13 +55,14 @@ exports.signup = async (req, res) => {
 exports.login = async (req, res) => {
     try {
         const { email, password } = req.body;
+        const normalizedEmail = String(email || '').trim().toLowerCase();
 
-        if (!(email && password)) {
+        if (!(normalizedEmail && password)) {
             return res.status(401).send('Email and password are required');
         }
 
         // Check if the user exists in the database
-        const user = await User.findOne({ email });
+        const user = await User.findOne({ email: normalizedEmail });
 
         // Match the password
         if (user && await bcrypt.compare(password, user.password)) {

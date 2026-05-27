@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { auth } from '../../firebase/firebase'; // Adjust the path as necessary
 import { apiUrl } from '../../utils/api';
 
 function Update() {
@@ -45,15 +44,6 @@ function Update() {
 
     fetchProductById();
   }, [id]);
-
-  const handleLogout = async () => {
-    try {
-      await auth.signOut();
-      console.log('User logged out successfully');
-    } catch (error) {
-      console.error('Error during logout:', error);
-    }
-  };
 
   const handleImageChange = (e) => {
     setImage(e.target.files[0]);
@@ -189,19 +179,6 @@ function Update() {
         </button>
       </form>
 
-      <button onClick={handleLogout} style={{
-        padding: '15px',
-        fontSize: '1em',
-        color: 'white',
-        backgroundColor: '#f44336',
-        border: 'none',
-        borderRadius: '8px',
-        cursor: 'pointer',
-        marginTop: '20px',
-        transition: 'background-color 0.3s, transform 0.3s',
-      }}>
-        Logout
-      </button>
     </div>
   );
 }

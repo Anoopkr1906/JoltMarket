@@ -1,20 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   BrowserRouter as Router,
   Route,
   Routes,
-  useNavigate,
-  useLocation,
 } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Home from "./Pages/Home/Home";
 import Login from "./Pages/Login/Login";
+import Signup from "./Components/Signup";
 import Update from "./Pages/Update/Update";
 import { CartProvider } from "./Context/CartManager/CartManager";
 import Buyer from "./Pages/Buyer/Buyer";
 import Seller from "./Pages/Seller/Seller";
-import { auth } from "./firebase/firebase";
 import "./App.css";
 import Cart from "./Pages/MyCart/Cart";
 import Navbar from "./Components/Navbar";
@@ -31,52 +29,14 @@ function App() {
       return null;
     }
   });
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!user) {
-      navigate("/");
-    }
-  }, [user, navigate]);
-
-  useEffect(() => {
-    if (!localStorage.getItem("user")) {
-      auth.signOut();
-    }
-
-    const unsubscribe = auth.onAuthStateChanged((firebaseUser) => {
-      if (firebaseUser) {
-        const userData = {
-          email: firebaseUser.email,
-          name: firebaseUser.displayName,
-        };
-        setUser(userData);
-        localStorage.setItem("user", JSON.stringify(userData));
-        toast.success(`Welcome back, ${userData.name}!`);
-      } else {
-        setUser(null);
-        localStorage.removeItem("user");
-      }
-    });
-
-    return () => unsubscribe();
-  }, []);
 
   const handleLogout = async () => {
-    try {
-      await auth.signOut();
-      setUser(null);
-      localStorage.removeItem("user");
-      toast.success("Successfully logged out");
-      navigate("/");
-      toast.info("Please log in to continue");
-    } catch (error) {
-      toast.error("Error logging out. Please try again.");
-    }
+    setUser(null);
+    localStorage.removeItem("user");
+    toast.success("Successfully logged out");
   };
-  const location = useLocation();
-  const showNavbar = user && location.pathname !== "/";
-  const showFooter = user && location.pathname !== "/";
+  const showNavbar = user;
+  const showFooter = user;
   return (
     <div className="bg-[#f4f4fb] min-h-screen flex flex-col">
       {showNavbar && <Navbar onLogout={handleLogout} />}
@@ -97,7 +57,10 @@ function App() {
               <Route path="/Cart" element={<Cart onLogout={handleLogout} />} />
             </>
           ) : (
-            <Route path="/" element={<Login onLogin={setUser} />} />
+            <>
+              <Route path="/" element={<Login onLogin={setUser} />} />
+              <Route path="/signup" element={<Signup />} />
+            </>
           )}
         </Routes>
       </div>
