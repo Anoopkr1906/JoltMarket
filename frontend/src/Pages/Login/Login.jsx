@@ -1,7 +1,6 @@
 import React from 'react';
 import { auth, googleProvider } from '../../firebase/firebase';
 import { signInWithPopup } from 'firebase/auth';
-import { motion } from 'framer-motion';
 
 const Login = ({ onLogin }) => {
   const handleGoogleLogin = async () => {

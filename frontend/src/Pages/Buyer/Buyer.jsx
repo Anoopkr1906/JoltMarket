@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useCart } from "../../Context/CartManager/CartManager";
 import { toast } from "react-toastify";
 import { apiUrl } from "../../utils/api";
@@ -14,17 +13,6 @@ function Buyer() {
   const [maxPrice, setMaxPrice] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    localStorage.removeItem("user");
-    alert("You have been logged out");
-    window.location.reload();
-  };
-
-  const handleCart = () => {
-    navigate("/Cart");
-  };
 
   const addCart = (index) => {
     addToCart(filteredProducts[index]);

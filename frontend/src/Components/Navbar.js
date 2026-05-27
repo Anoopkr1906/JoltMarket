@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useCart } from "../Context/CartManager/CartManager";
 import { MoonIcon, SunIcon } from "@heroicons/react/24/solid";
 import { FiLogOut } from "react-icons/fi";
@@ -7,7 +7,6 @@ import { FiLogOut } from "react-icons/fi";
 
 const Navbar = ({ onLogout }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const location = useLocation();
   const { cart } = useCart();
   const [darkMode, setDarkMode] = useState(
     localStorage.getItem("darkMode") === "true"

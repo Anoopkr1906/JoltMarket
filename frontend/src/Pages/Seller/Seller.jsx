@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { auth } from "../../firebase/firebase"; // Adjust the path as necessary
 import { useNavigate } from "react-router-dom"; // Import useNavigate for navigation
 import { toast } from "react-toastify";
 import { apiUrl } from "../../utils/api";
@@ -46,15 +45,6 @@ function Seller() {
 
     fetchProducts();
   }, []);
-
-  const handleLogout = async () => {
-    try {
-      await auth.signOut(); // Sign out from Firebase
-      console.log("User logged out successfully");
-    } catch (error) {
-      console.error("Error during logout:", error);
-    }
-  };
 
   const isIndianPhoneNumber = (phoneNumber) => {
     const cleanNumber = phoneNumber.replace(/\D/g, "");
@@ -292,7 +282,7 @@ function Seller() {
               <img
                 src={product.image}
                 className="w-40 h-40 object-cover"
-                alt="Product Image"
+                alt={product.productName}
               />
               <p className="text-lg font-semibold text-gray-800 text-left dark:text-white">
                 {product.productName}
